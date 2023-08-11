@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/*----RESET----*/
+
 /* Box sizing rules */
 *,
 *::before,
@@ -76,3 +78,15 @@ select {
         scroll-behavior: auto !important;
     }
 }
+
+/*----CUSTOM----*/
+@font-face {
+    font-family: "SpaceGrotesk";
+    src: url("./assets/fonts/static/SpaceGrotesk-Medium.ttf") format("truetype");
+    font-weight: 400;
+  }
+  @font-face {
+    font-family: "SpaceGrotesk";
+    src: url("./assets/fonts/static/SpaceGrotesk-Bold.ttf") format("truetype");
+    font-weight: 700;
+  }
