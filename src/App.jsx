@@ -8,8 +8,7 @@ function App() {
 
     return (
         <StartPlayerContext.Provider value={{ startPlayer, setStartPlayer }}>
-            <div className="min-h-screen bg-custom-purple">
-                <h1>Front Page</h1>
+            <div className="min-h-screen bg-custom-purple font-[SpaceGrotesk]">
                 <StartMenu />
             </div>
         </StartPlayerContext.Provider>
