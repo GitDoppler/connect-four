@@ -3,19 +3,27 @@ import { useState, createContext, useRef } from 'react'
 
 export const StartPlayerContext = createContext({})
 export const TurnContext = createContext({})
+export const StartCPUContext = createContext({})
+export const RulesContext = createContext({})
 
 function App() {
     const [startPlayer, setStartPlayer] = useState(false)
+    const [startCPU, setStartCPU] = useState(false)
+    const [rules, setRules] = useState(false)
     const [turn, setTurn] = useState('P1')
     const paused = useRef(false)
 
     return (
         <StartPlayerContext.Provider value={{ startPlayer, setStartPlayer }}>
-            <TurnContext.Provider value={{ turn, setTurn }}>
-                <div className="min-h-screen bg-custom-purple font-[SpaceGrotesk]">
-                    <StartMenu />
-                </div>
-            </TurnContext.Provider>
+            <StartCPUContext.Provider value={{ startCPU, setStartCPU }}>
+                <RulesContext.Provider value={{ rules, setRules }}>
+                    <TurnContext.Provider value={{ turn, setTurn }}>
+                        <div className="min-h-screen bg-custom-purple font-[SpaceGrotesk]">
+                            <StartMenu />
+                        </div>
+                    </TurnContext.Provider>
+                </RulesContext.Provider>
+            </StartCPUContext.Provider>
         </StartPlayerContext.Provider>
     )
 }
