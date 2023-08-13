@@ -1,23 +1,26 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, forwardRef, useContext } from 'react'
+import { TurnContext } from '../App'
 
-export default function Counter() {
+const Counter = forwardRef(function Counter(props, paused) {
     const [time, setTime] = useState(15)
-    const [turn, setTurn] = useState('P1')
+    const { turn, setTurn } = useContext(TurnContext)
     const hasSwitchedTurn = useRef(false) // Ref to track if the turn has been switched for the current timer cycle
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setTime((prevTime) => {
-                if (prevTime <= 0) {
-                    if (!hasSwitchedTurn.current) {
-                        setTurn((currentTurn) => (currentTurn === 'P1' ? 'P2' : 'P1'))
-                        hasSwitchedTurn.current = true // Mark that the turn has been switched
+            if (paused.current === false) {
+                setTime((prevTime) => {
+                    if (prevTime <= 0) {
+                        if (!hasSwitchedTurn.current) {
+                            setTurn((currentTurn) => (currentTurn === 'P1' ? 'P2' : 'P1'))
+                            hasSwitchedTurn.current = true // Mark that the turn has been switched
+                        }
+                        return 15
                     }
-                    return 15
-                }
-                hasSwitchedTurn.current = false // Reset the flag for the next timer cycle
-                return prevTime - 1
-            })
+                    hasSwitchedTurn.current = false // Reset the flag for the next timer cycle
+                    return prevTime - 1
+                })
+            }
         }, 1000)
 
         return () => clearInterval(interval)
@@ -31,4 +34,6 @@ export default function Counter() {
             <div className=" text-6xl font-bold text-white">{time + 's'}</div>
         </div>
     )
-}
+})
+
+export default Counter
