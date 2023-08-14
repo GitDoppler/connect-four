@@ -90,3 +90,13 @@ select {
     src: url("./assets/fonts/static/SpaceGrotesk-Bold.ttf") format("truetype");
     font-weight: 700;
   }
+
+body{
+    background-color: hsl(257,100%,64%);
+}
+
+@media(min-width: 768px){
+    body{
+        background-color: hsl(257,67%,51%);
+    }
+}

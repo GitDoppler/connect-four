@@ -12,7 +12,7 @@ export default function PlayButton() {
             onClick={() => {
                 setStartPlayer(!startPlayer)
             }}
-            className="w-full rounded-2xl border-4 border-black bg-custom-yellow shadow-[0_10px_0_0_#000]"
+            className="w-full rounded-2xl border-4 border-black bg-custom-yellow shadow-[0_10px_0_0_#000] hover:border-custom-dark-purple hover:shadow-[0_10px_0_0_#5C2DD5]"
         >
             <div className="m-5 flex items-center justify-between">
                 <div className=" font-[SpaceGrotesk] text-2xl font-bold uppercase">Play vs player</div>
