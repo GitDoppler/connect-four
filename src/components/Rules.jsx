@@ -1,6 +1,7 @@
 import closeIcon from '../../src/assets/images/icon-check.svg'
 import { useContext } from 'react'
 import { RulesContext } from '../App'
+import { motion } from 'framer-motion'
 
 export default function Rules() {
     const { rules, setRules } = useContext(RulesContext)
@@ -8,7 +9,7 @@ export default function Rules() {
     //The extra div acts as a container for the rules since the div breaks with margin and looks bad with padding.
     return (
         <div className="pt-[20vh]">
-            <div className="mx-auto w-[min(100%-40px,480px)] rounded-[40px] border-4 border-black bg-white shadow-[0_10px_0_0_#000]">
+            <motion.div key="rules" initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} className="mx-auto w-[min(100%-40px,480px)] rounded-[40px] border-4 border-black bg-white shadow-[0_10px_0_0_#000]">
                 <div className=" relative px-10 pb-14 pt-7">
                     <h1 className="mb-7 text-center text-6xl font-bold uppercase">Rules</h1>
                     <h2 className="mb-4 text-xl uppercase text-custom-purple">Objective</h2>
@@ -29,7 +30,7 @@ export default function Rules() {
                         <img src={closeIcon} />
                     </button>
                 </div>
-            </div>
+            </motion.div>
         </div>
     )
 }

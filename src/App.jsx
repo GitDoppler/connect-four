@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion'
 import Rules from './components/Rules'
 import StartMenu from './components/StartMenu'
 import { useState, createContext, useRef } from 'react'
@@ -20,8 +21,10 @@ function App() {
                 <RulesContext.Provider value={{ rules, setRules }}>
                     <TurnContext.Provider value={{ turn, setTurn }}>
                         <div className="min-h-screen  font-[SpaceGrotesk] ">
-                            {!rules && <StartMenu />}
-                            {rules && <Rules />}
+                            <AnimatePresence mode="wait" initial={false}>
+                                {!rules && <StartMenu />}
+                                {rules && <Rules />}
+                            </AnimatePresence>
                         </div>
                     </TurnContext.Provider>
                 </RulesContext.Provider>
