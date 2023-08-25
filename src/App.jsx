@@ -2,6 +2,7 @@ import { AnimatePresence } from 'framer-motion'
 import Rules from './components/Rules'
 import StartMenu from './components/StartMenu'
 import { useState, createContext, useRef } from 'react'
+import Board from './components/Board'
 
 export const StartPlayerContext = createContext({})
 export const TurnContext = createContext({})
@@ -20,10 +21,11 @@ function App() {
             <StartCPUContext.Provider value={{ startCPU, setStartCPU }}>
                 <RulesContext.Provider value={{ rules, setRules }}>
                     <TurnContext.Provider value={{ turn, setTurn }}>
-                        <div className="min-h-screen  font-[SpaceGrotesk] ">
+                        <div className={`min-h-screen  font-[SpaceGrotesk] ${startPlayer === true ? 'bg-custom-purple' : ''}`}>
                             <AnimatePresence mode="wait" initial={false}>
-                                {!rules && <StartMenu />}
+                                {!rules && !startPlayer && <StartMenu />}
                                 {rules && <Rules />}
+                                {startPlayer && <Board />}
                             </AnimatePresence>
                         </div>
                     </TurnContext.Provider>
