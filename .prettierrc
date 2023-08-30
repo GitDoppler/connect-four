@@ -2,5 +2,5 @@ trailingComma: 'es5'
 tabWidth: 4
 semi: false
 singleQuote: true
-printWidth: 200
+printWidth: 800
 plugins: ['prettier-plugin-tailwindcss']
