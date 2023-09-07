@@ -1,39 +1,48 @@
-import { useEffect, useState, useRef, forwardRef, useContext } from 'react'
-import { TurnContext } from '../App'
+import { useEffect, useState, useRef, forwardRef, useContext, useReducer } from 'react'
+import { TurnContext, PauseContext } from '../App'
+import bg1 from '../../src/assets/images/turn-background-red.svg'
+import bg2 from '../../src/assets/images/turn-background-yellow.svg'
 
-const Counter = forwardRef(function Counter(props, paused) {
-    const [time, setTime] = useState(15)
+const DECREMENT_TIME = 'DECREMENT_TIME'
+const SWITCH_TURN = 'SWITCH_TURN'
+
+function counterReducer(state, action) {
+    switch (action.type) {
+        case DECREMENT_TIME:
+            return { ...state, time: state.time - 1 }
+        case SWITCH_TURN:
+            // Here, we only handle the time reset, not the turn switch
+            return { ...state, time: 15 }
+        default:
+            throw new Error(`Unhandled action type: ${action.type}`)
+    }
+}
+
+export default function Counter() {
     const { turn, setTurn } = useContext(TurnContext)
-    const hasSwitchedTurn = useRef(false) // Ref to track if the turn has been switched for the current timer cycle
+    const { pause, setPause } = useContext(PauseContext)
+    const initialState = { time: 15 }
+    const [state, dispatch] = useReducer(counterReducer, initialState)
 
     useEffect(() => {
+        if (pause) return
+
         const interval = setInterval(() => {
-            if (paused.current === false) {
-                setTime((prevTime) => {
-                    if (prevTime <= 0) {
-                        if (!hasSwitchedTurn.current) {
-                            setTurn((currentTurn) => (currentTurn === 'P1' ? 'P2' : 'P1'))
-                            hasSwitchedTurn.current = true // Mark that the turn has been switched
-                        }
-                        return 15
-                    }
-                    hasSwitchedTurn.current = false // Reset the flag for the next timer cycle
-                    return prevTime - 1
-                })
+            if (state.time <= 1) {
+                setTurn((currentTurn) => (currentTurn === 'P1' ? 'P2' : 'P1'))
+                dispatch({ type: SWITCH_TURN })
+            } else {
+                dispatch({ type: DECREMENT_TIME })
             }
         }, 1000)
 
         return () => clearInterval(interval)
-    }, [])
-
-    console.log(turn)
+    }, [state.time, pause, setTurn])
 
     return (
-        <div className={'mt-11 flex h-[150px] max-w-[191px] flex-col items-center justify-center gap-1 rounded-2xl  bg-cover bg-no-repeat shadow-[0_10px_0_0_#000]' + ` bg-[url(../../src/assets/images/turn-background-${turn === 'P1' ? 'red' : 'yellow'}.svg)]`}>
+        <div className={'relative z-40 mx-auto mt-11 flex h-[150px] max-w-[191px] flex-col items-center justify-center gap-1 rounded-2xl  bg-cover bg-no-repeat shadow-[0_10px_0_0_#000] ' + `${turn === 'P1' ? 'bg-[url(../../src/assets/images/turn-background-red.svg)]' : 'bg-[url(../../src/assets/images/turn-background-yellow.svg)]'}`}>
             <div className=" text-base font-bold text-white">{`Player ${turn === 'P1' ? '1' : '2'}'s turn`}</div>
-            <div className=" text-6xl font-bold text-white">{time + 's'}</div>
+            <div className=" text-6xl font-bold text-white">{`${state.time}s`}</div>
         </div>
     )
-})
-
-export default Counter
+}
