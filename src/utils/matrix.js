@@ -10,7 +10,6 @@ export function createMatrix(rows, cols) {
 }
 
 export function validateMove(row, col,matrix) {
-    console.log("test")
     if (matrix[row][col] === -1 || matrix[row][col] === 1) return false
 
     if (row === 5) return true
@@ -28,6 +27,33 @@ export function updateMatrix(row, col, newValue, matrix) {
     return updatedMatrix
 }
 
-export function checkWin(){
-
+export function checkWin(matrix){
+    for(let i=5;i>=0;i--){
+        for(let j=0;j<7;j++){
+            if(matrix[i][j]==0){
+                continue
+            }
+            //horizontal right
+            if(j<=3 && matrix[i][j]==matrix[i][j+1] && matrix[i][j+1]==matrix[i][j+2] && matrix[i][j+2]==matrix[i][j+3]){
+                return true
+            }
+            //horizontal left
+            if(j>=3 && matrix[i][j]==matrix[i][j-1] && matrix[i][j-1]==matrix[i][j-2] && matrix[i][j-2]==matrix[i][j-3]){
+                return true
+            }
+            //verticalt
+            if(i>=3 && matrix[i][j]==matrix[i-1][j] && matrix[i-1][j]==matrix[i-2][j] && matrix[i-2][j]==matrix[i-3][j]){
+                return true
+            }
+            //diagonal right
+            if(i>=3 && j<=3 && matrix[i][j]==matrix[i-1][j+1] && matrix[i-1][j+1]==matrix[i-2][j+2] && matrix[i-2][j+2]==matrix[i-3][j+3]){
+                return true
+            }
+            //diagonal left
+            if(i>=3 && j>=3 && matrix[i][j]==matrix[i-1][j-1] && matrix[i-1][j-1]==matrix[i-2][j-2] && matrix[i-2][j-2]==matrix[i-3][j-3]){
+                return true
+            }
+        }
+    }
+    return false
 }

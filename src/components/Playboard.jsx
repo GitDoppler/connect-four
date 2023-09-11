@@ -9,7 +9,7 @@ import MarkerYellow from '../assets/images/marker-yellow.svg'
 import { TurnContext } from '../App'
 import { useState, useContext } from 'react'
 import { motion } from 'framer-motion'
-import { createMatrix, updateMatrix } from '../utils/matrix'
+import { createMatrix, updateMatrix, checkWin } from '../utils/matrix'
 import ScoreboardPlayer from './ScoreboardPlayer'
 
 export default function Playboard({ score, turnEnd, setTurnEnd }) {
@@ -59,14 +59,14 @@ export default function Playboard({ score, turnEnd, setTurnEnd }) {
               <button
                 className='relative z-30 block h-full w-full rounded-full'
                 onClick={() => {
-                  console.log(indexRow + '-' + indexCol)
                   const updatedMatrix = updateMatrix(indexRow, indexCol, piece, matrix)
                   if (updatedMatrix) {
-                    console.log(updatedMatrix)
+                    if (checkWin(updatedMatrix) == true) {
+                      console.log('WINNER')
+                    }
                     setMatrix(updatedMatrix)
                     setTurnEnd(true)
                   }
-                  console.log(matrix)
                 }}
                 onMouseEnter={() => handleHover(indexCol)}
               ></button>
