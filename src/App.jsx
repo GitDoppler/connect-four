@@ -5,10 +5,8 @@ import { useState, createContext } from 'react'
 import Board from './components/Board'
 
 export const StartPlayerContext = createContext({})
-export const TurnContext = createContext({})
 export const StartCPUContext = createContext({})
 export const RulesContext = createContext({})
-export const PauseContext = createContext({})
 
 function App() {
   const [startPlayer, setStartPlayer] = useState(false)
@@ -20,7 +18,7 @@ function App() {
       <StartCPUContext.Provider value={{ startCPU, setStartCPU }}>
         <RulesContext.Provider value={{ rules, setRules }}>
           <div
-            className={`min-h-screen  font-[SpaceGrotesk] ${
+            className={`min-h-screen font-[SpaceGrotesk] ${
               startPlayer === true ? 'bg-custom-purple' : ''
             }`}
           >

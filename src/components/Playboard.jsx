@@ -33,6 +33,21 @@ export default function Playboard() {
     setPings(nextPings)
   }
 
+  function handleClick(indexRow, indexCol, piece, context) {
+    const updatedMatrix = updateMatrix(indexRow, indexCol, piece, context.matrix)
+    if (!context.finished && updatedMatrix) {
+      const stateGame = checkWin(updatedMatrix)
+      if (stateGame.isWin == false) {
+        context.handlePlacePuck(updatedMatrix)
+        context.handleEndTurn()
+        return
+      }
+      context.handleFinish(stateGame.matrix)
+      if (stateGame.winner == 'P1') context.handleP1()
+      if (stateGame.winner == 'P2') context.handleP2()
+    }
+  }
+
   return (
     <div className='w-full font-bold xl:flex xl:items-center xl:justify-center xl:gap-[3.75rem]'>
       <ScoreboardPlayer score={context.scoreP1} player={'P1'} desktop={true} />
@@ -57,28 +72,33 @@ export default function Playboard() {
               key={indexRow + '-' + indexCol}
             >
               <button
-                className='relative z-30 block h-full w-full rounded-full'
-                onClick={() => {
-                  const updatedMatrix = updateMatrix(indexRow, indexCol, piece, context.matrix)
-                  if (updatedMatrix) {
-                    if (checkWin(updatedMatrix) == true) {
-                      console.log('Winner has been found.')
-                      context.handleFinish()
-                    }
-                    console.log(updatedMatrix)
-                    context.handlePlacePuck(updatedMatrix)
-                    context.handleEndTurn()
-                    console.log(context.matrix)
-                  }
-                }}
+                className='relative z-30 flex h-full w-full items-center justify-center rounded-full'
+                onClick={() => handleClick(indexRow, indexCol, piece, context)}
                 onMouseEnter={() => handleHover(indexCol)}
-              ></button>
+              >
+                {(context.matrix[indexRow][indexCol] == -2 ||
+                  context.matrix[indexRow][indexCol] == 2) && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className='mt-1 flex h-[58.8%] w-[58.8%] items-center justify-center rounded-full bg-white'
+                  >
+                    <div
+                      className={`h-[40%] w-[40%] rounded-full ${
+                        context.matrix[indexRow][indexCol] > 0
+                          ? 'bg-custom-pink'
+                          : 'bg-custom-yellow'
+                      }`}
+                    ></div>
+                  </motion.div>
+                )}
+              </button>
 
               {context.matrix[indexRow][indexCol] != 0 ? (
                 <motion.img
                   initial={{ top: '-120%' }}
                   animate={{ top: '0px' }}
-                  src={context.matrix[indexRow][indexCol] == 1 ? RedPuck : YellowPuck}
+                  src={context.matrix[indexRow][indexCol] > 0 ? RedPuck : YellowPuck}
                   className={`absolute left-[calc(50%-calc((100%+0.5rem)/2))] z-10 aspect-square w-[calc(100%+0.5rem)] max-w-none md:left-[-0.25rem]`}
                 />
               ) : null}

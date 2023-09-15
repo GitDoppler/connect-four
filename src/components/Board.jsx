@@ -6,6 +6,8 @@ import Playboard from './Playboard'
 import Context from '../utils/context'
 import * as ACTIONS from '../store/actions/actions'
 import * as BoardReducer from '../store/reducers/boardReducer'
+import PauseMenu from './PauseMenu'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Board() {
   const [stateBoardReducer, dispatchBoardReducer] = useReducer(
@@ -29,8 +31,8 @@ export default function Board() {
     dispatchBoardReducer(ACTIONS.placePuck(data))
   }
 
-  const handleFinish = () => {
-    dispatchBoardReducer(ACTIONS.finish())
+  const handleFinish = (data) => {
+    dispatchBoardReducer(ACTIONS.finish(data))
   }
 
   const handleEndTurn = () => {
@@ -39,6 +41,18 @@ export default function Board() {
 
   const handleCountDown = () => {
     dispatchBoardReducer(ACTIONS.countDown())
+  }
+
+  const handleP1 = () => {
+    dispatchBoardReducer(ACTIONS.p1())
+  }
+
+  const handleP2 = () => {
+    dispatchBoardReducer(ACTIONS.p2())
+  }
+
+  const handleReplay = () => {
+    dispatchBoardReducer(ACTIONS.replay())
   }
 
   return (
@@ -56,19 +70,27 @@ export default function Board() {
         handlePause: () => handlePause(),
         handleChangeTurn: () => handleChangeTurn(),
         handlePlacePuck: (matrix) => handlePlacePuck(matrix),
-        handleFinish: () => handleFinish(),
+        handleFinish: (matrix) => handleFinish(matrix),
         handleEndTurn: () => handleEndTurn(),
         handleCountDown: () => handleCountDown(),
+        handleP1: () => handleP1(),
+        handleP2: () => handleP2(),
+        handleReplay: () => handleReplay(),
       }}
     >
-      <div className='flex min-h-screen flex-col justify-start'>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className='relative flex min-h-screen flex-col justify-start'
+      >
         <div className='mx-auto  w-[min(100%-40px,632px)] pt-12 xl:w-[64.625rem]'>
           <Navbar />
           <Scoreboard />
           <Playboard />
         </div>
         <Counter />
-      </div>
+        <AnimatePresence>{stateBoardReducer.pause && <PauseMenu />}</AnimatePresence>
+      </motion.div>
     </Context.Provider>
   )
 }

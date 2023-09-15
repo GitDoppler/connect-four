@@ -28,6 +28,7 @@ export function updateMatrix(row, col, newValue, matrix) {
 }
 
 export function checkWin(matrix){
+    const winMatrix=matrix.map(i=>[...i])
     for(let i=5;i>=0;i--){
         for(let j=0;j<7;j++){
             if(matrix[i][j]==0){
@@ -35,25 +36,40 @@ export function checkWin(matrix){
             }
             //horizontal right
             if(j<=3 && matrix[i][j]==matrix[i][j+1] && matrix[i][j+1]==matrix[i][j+2] && matrix[i][j+2]==matrix[i][j+3]){
-                return true
+                for(let k=0;k<4;k++){
+                    winMatrix[i][j+k]=matrix[i][j]*2;
+                }
+                return {matrix: winMatrix, isWin: true, winner: (matrix[i][j] == 1?'P1':'P2')}
             }
             //horizontal left
             if(j>=3 && matrix[i][j]==matrix[i][j-1] && matrix[i][j-1]==matrix[i][j-2] && matrix[i][j-2]==matrix[i][j-3]){
-                return true
+                for(let k=0;k<4;k++){
+                    winMatrix[i][j-k]=matrix[i][j]*2;
+                }
+                return {matrix: winMatrix, isWin: true, winner: (matrix[i][j] == 1?'P1':'P2')}
             }
             //vertical
             if(i>=3 && matrix[i][j]==matrix[i-1][j] && matrix[i-1][j]==matrix[i-2][j] && matrix[i-2][j]==matrix[i-3][j]){
-                return true
+                for(let k=0;k<4;k++){
+                    winMatrix[i-k][j]=matrix[i][j]*2;
+                }
+                return {matrix: winMatrix, isWin: true, winner: (matrix[i][j] == 1?'P1':'P2')}
             }
             //diagonal right
             if(i>=3 && j<=3 && matrix[i][j]==matrix[i-1][j+1] && matrix[i-1][j+1]==matrix[i-2][j+2] && matrix[i-2][j+2]==matrix[i-3][j+3]){
-                return true
+                for(let k=0;k<4;k++){
+                    winMatrix[i-k][j+k]=matrix[i][j]*2;
+                }
+                return {matrix: winMatrix, isWin: true, winner: (matrix[i][j] == 1?'P1':'P2')}
             }
             //diagonal left
             if(i>=3 && j>=3 && matrix[i][j]==matrix[i-1][j-1] && matrix[i-1][j-1]==matrix[i-2][j-2] && matrix[i-2][j-2]==matrix[i-3][j-3]){
-                return true
+                for(let k=0;k<4;k++){
+                    winMatrix[i-k][j-k]=matrix[i][j]*2;
+                }
+                return {matrix: winMatrix, isWin: true, winner: (matrix[i][j] == 1?'P1':'P2')}
             }
         }
     }
-    return false
+    return {matrix: winMatrix, isWin: false, winner: null}
 }

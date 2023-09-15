@@ -1,5 +1,5 @@
 import * as ACTION_TYPES from "../actions/action_type";
-import { createMatrix } from '../../utils/matrix'
+import { createMatrix} from '../../utils/matrix'
 
 export const initialState={
     scoreP1: 0,
@@ -46,6 +46,7 @@ export const BoardReducer = (state=initialState,action)=>{
             return{
                 ...state,
                 finished:true,
+                matrix: action.matrix,
             };
         case ACTION_TYPES.END_TURN:
             return{
@@ -56,6 +57,26 @@ export const BoardReducer = (state=initialState,action)=>{
             return{
                 ...state,
                 time: state.time - 1,
+            };
+        case ACTION_TYPES.P1:
+            return{
+                ...state,
+                scoreP1: state.scoreP1 + 2,
+            };
+        case ACTION_TYPES.P2:
+            return{
+                ...state,
+                scoreP2: state.scoreP2 + 2,
+            };
+        case ACTION_TYPES.REPLAY:
+            return{
+                ...state,
+                turn: (initialState === 'P1'?'P2':'P1'),
+                turnEnd:false,
+                finished: false,
+                matrix: createMatrix(6,7),
+                pause: false,
+                time:15,
             };
         default:
             throw new Error(`Unhandled action type: ${action.type}`)

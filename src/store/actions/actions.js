@@ -24,9 +24,10 @@ export const placePuck = (data)=>{
     };
 };
 
-export const finish = ()=>{
+export const finish = (data)=>{
     return{
         type:ACTION_TYPES.FINISH,
+        matrix: data
     };
 };
 
@@ -38,6 +39,24 @@ export const endTurn=()=>{
 
 export const countDown=()=>{
     return{
-        type:ACTION_TYPES.COUNT_DOWN
+        type:ACTION_TYPES.COUNT_DOWN,
+    };
+};
+
+export const p1=()=>{
+    return{
+        type:ACTION_TYPES.P1,
+    };
+};
+
+export const p2=()=>{
+    return{
+        type:ACTION_TYPES.P2,
+    };
+};
+
+export const replay=()=>{
+    return{
+        type:ACTION_TYPES.REPLAY,
     };
 };

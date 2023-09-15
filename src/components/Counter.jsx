@@ -29,11 +29,21 @@ export default function Counter() {
   }, [context.time, context.turnEnd, context.pause, context.finished])
 
   function handleClick() {
-    context.handleRestart()
+    context.handleReplay()
+  }
+
+  function handleChange() {
+    if (context.finished == false) return 'bg-custom-dark-purple'
+
+    if (context.turn == 'P1') return 'bg-custom-pink'
+
+    return 'bg-custom-yellow'
   }
 
   return (
-    <div className='mb-auto mt-5 flex-grow rounded-t-[3.75rem] bg-custom-dark-purple pb-5'>
+    <div
+      className={`mb-auto mt-5 flex-grow rounded-t-[3.75rem] ${handleChange()} pb-5 transition-[background]`}
+    >
       {context.finished === false ? (
         <div
           className={
@@ -56,7 +66,7 @@ export default function Counter() {
           <div className=' text-6xl'>Wins</div>
           <button
             onClick={handleClick}
-            className='rounded-2xl bg-custom-dark-purple px-5 py-2 text-base uppercase text-white'
+            className={`rounded-2xl bg-custom-dark-purple px-5 py-2 text-base uppercase text-white`}
           >
             Play again
           </button>
