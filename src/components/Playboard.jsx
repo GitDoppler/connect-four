@@ -6,17 +6,16 @@ import RedPuck from '../assets/images/counter-red-large.svg'
 import YellowPuck from '../assets/images/counter-yellow-large.svg'
 import MarkerRed from '../assets/images/marker-red.svg'
 import MarkerYellow from '../assets/images/marker-yellow.svg'
-import { TurnContext } from '../App'
 import { useState, useContext } from 'react'
 import { motion } from 'framer-motion'
-import { createMatrix, updateMatrix, checkWin } from '../utils/matrix'
+import { updateMatrix, checkWin } from '../utils/matrix'
 import ScoreboardPlayer from './ScoreboardPlayer'
+import Context from '../utils/context'
 
-export default function Playboard({ score, turnEnd, setTurnEnd }) {
-  const { turn, setTurn } = useContext(TurnContext)
-  const [matrix, setMatrix] = useState(createMatrix(6, 7))
+export default function Playboard() {
+  const context = useContext(Context)
   const [pings, setPings] = useState(createArray(7))
-  const piece = turn === 'P1' ? 1 : -1
+  const piece = context.turn === 'P1' ? 1 : -1
 
   function createArray(size) {
     const array = new Array(size).fill(0)
@@ -33,9 +32,10 @@ export default function Playboard({ score, turnEnd, setTurnEnd }) {
     })
     setPings(nextPings)
   }
+
   return (
     <div className='w-full font-bold xl:flex xl:items-center xl:justify-center xl:gap-[3.75rem]'>
-      <ScoreboardPlayer score={score} player={'P1'} desktop={true} />
+      <ScoreboardPlayer score={context.scoreP1} player={'P1'} desktop={true} />
 
       <div className=' relative mx-auto mt-16 flex aspect-[1.25219/1] w-full flex-wrap items-center justify-center gap-[3.797%] md:mt-20 md:gap-[1.5rem] xl:w-[39.5rem]'>
         <div className='absolute top-[-3.75rem] z-50 hidden w-full justify-center gap-[3.797%] md:gap-[1.5rem] lg:flex '>
@@ -46,11 +46,11 @@ export default function Playboard({ score, turnEnd, setTurnEnd }) {
               }`}
               key={indexPing}
             >
-              <img src={turn === 'P1' ? MarkerRed : MarkerYellow} />
+              <img src={context.turn === 'P1' ? MarkerRed : MarkerYellow} />
             </div>
           ))}
         </div>
-        {matrix.map((row, indexRow) =>
+        {context.matrix.map((row, indexRow) =>
           row.map((e, indexCol) => (
             <div
               className='relative aspect-square w-[10.1492%] md:w-[4rem]'
@@ -59,23 +59,26 @@ export default function Playboard({ score, turnEnd, setTurnEnd }) {
               <button
                 className='relative z-30 block h-full w-full rounded-full'
                 onClick={() => {
-                  const updatedMatrix = updateMatrix(indexRow, indexCol, piece, matrix)
+                  const updatedMatrix = updateMatrix(indexRow, indexCol, piece, context.matrix)
                   if (updatedMatrix) {
                     if (checkWin(updatedMatrix) == true) {
-                      console.log('WINNER')
+                      console.log('Winner has been found.')
+                      context.handleFinish()
                     }
-                    setMatrix(updatedMatrix)
-                    setTurnEnd(true)
+                    console.log(updatedMatrix)
+                    context.handlePlacePuck(updatedMatrix)
+                    context.handleEndTurn()
+                    console.log(context.matrix)
                   }
                 }}
                 onMouseEnter={() => handleHover(indexCol)}
               ></button>
 
-              {matrix[indexRow][indexCol] != 0 ? (
+              {context.matrix[indexRow][indexCol] != 0 ? (
                 <motion.img
                   initial={{ top: '-120%' }}
                   animate={{ top: '0px' }}
-                  src={matrix[indexRow][indexCol] == 1 ? RedPuck : YellowPuck}
+                  src={context.matrix[indexRow][indexCol] == 1 ? RedPuck : YellowPuck}
                   className={`absolute left-[calc(50%-calc((100%+0.5rem)/2))] z-10 aspect-square w-[calc(100%+0.5rem)] max-w-none md:left-[-0.25rem]`}
                 />
               ) : null}
@@ -104,7 +107,7 @@ export default function Playboard({ score, turnEnd, setTurnEnd }) {
         ></img>
       </div>
 
-      <ScoreboardPlayer score={score} player={'P2'} desktop={true} />
+      <ScoreboardPlayer score={context.scoreP2} player={'P2'} desktop={true} />
     </div>
   )
 }

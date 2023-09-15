@@ -5,8 +5,6 @@ import { StartPlayerContext } from '../../App'
 export default function PlayButton() {
   const { startPlayer, setStartPlayer } = useContext(StartPlayerContext)
 
-  console.log(startPlayer)
-
   return (
     <button
       onClick={() => {

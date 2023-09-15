@@ -41,7 +41,7 @@ export function checkWin(matrix){
             if(j>=3 && matrix[i][j]==matrix[i][j-1] && matrix[i][j-1]==matrix[i][j-2] && matrix[i][j-2]==matrix[i][j-3]){
                 return true
             }
-            //verticalt
+            //vertical
             if(i>=3 && matrix[i][j]==matrix[i-1][j] && matrix[i-1][j]==matrix[i-2][j] && matrix[i-2][j]==matrix[i-3][j]){
                 return true
             }
