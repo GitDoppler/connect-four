@@ -33,11 +33,17 @@ export default function Counter() {
   }
 
   function handleChange() {
-    if (context.finished == false) return 'bg-custom-dark-purple'
+    if (context.finished == false || context.winner === 'tie') return 'bg-custom-dark-purple'
 
     if (context.turn == 'P1') return 'bg-custom-pink'
 
     return 'bg-custom-yellow'
+  }
+
+  function nameDisplay(winner) {
+    if (winner === 'P1') return 'Player 1'
+    if (winner === 'P2') return 'Player 2'
+    return 'No winner'
   }
 
   return (
@@ -61,12 +67,12 @@ export default function Counter() {
           <div className=' text-6xl font-bold text-white'>{`${context.time}s`}</div>
         </div>
       ) : (
-        <div className='relative z-40 mx-auto flex h-[160px] w-[285px] flex-col items-center justify-center rounded-2xl border-4 border-black bg-white font-bold uppercase shadow-[0_10px_0_0_#000]'>
-          <div className='text-base'>Player 1</div>
-          <div className=' text-6xl'>Wins</div>
+        <div className='relative z-40 mx-auto flex h-[10rem] w-[17.8125rem] flex-col items-center justify-center rounded-2xl border-4 border-black bg-white font-bold uppercase shadow-[0_10px_0_0_#000]'>
+          <div className='text-base'>{nameDisplay(context.winner)}</div>
+          <div className=' text-6xl'>{context.winner === 'tie' ? 'Tie' : 'Wins'}</div>
           <button
             onClick={handleClick}
-            className={`rounded-2xl bg-custom-dark-purple px-5 py-2 text-base uppercase text-white`}
+            className='rounded-2xl bg-custom-dark-purple px-5 py-2 text-base uppercase text-white transition-[background] hover:bg-custom-pink'
           >
             Play again
           </button>

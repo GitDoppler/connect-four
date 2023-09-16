@@ -6,14 +6,17 @@ import RedPuck from '../assets/images/counter-red-large.svg'
 import YellowPuck from '../assets/images/counter-yellow-large.svg'
 import MarkerRed from '../assets/images/marker-red.svg'
 import MarkerYellow from '../assets/images/marker-yellow.svg'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { updateMatrix, checkWin } from '../utils/matrix'
+import { getUpdatedMatrix, checkWin } from '../utils/matrix'
+import { getUpdatedMatrixCPU } from '../utils/CPU'
 import ScoreboardPlayer from './ScoreboardPlayer'
 import Context from '../utils/context'
+import { StartCPUContext } from '../App'
 
 export default function Playboard() {
   const context = useContext(Context)
+  const { startCPU, setStartCPU } = useContext(StartCPUContext)
   const [pings, setPings] = useState(createArray(7))
   const piece = context.turn === 'P1' ? 1 : -1
 
@@ -33,20 +36,39 @@ export default function Playboard() {
     setPings(nextPings)
   }
 
-  function handleClick(indexRow, indexCol, piece, context) {
-    const updatedMatrix = updateMatrix(indexRow, indexCol, piece, context.matrix)
+  function handleClick(indexRow, indexCol, piece, context, startCPU) {
+    if (startCPU === true && context.turn === 'P2') return null
+    const updatedMatrix = getUpdatedMatrix(indexRow, indexCol, piece, context.matrix)
     if (!context.finished && updatedMatrix) {
       const stateGame = checkWin(updatedMatrix)
+      context.handleUpdateMatrix(stateGame.matrix)
       if (stateGame.isWin == false) {
-        context.handlePlacePuck(updatedMatrix)
         context.handleEndTurn()
         return
       }
-      context.handleFinish(stateGame.matrix)
+      context.handleFinish()
       if (stateGame.winner == 'P1') context.handleP1()
       if (stateGame.winner == 'P2') context.handleP2()
     }
   }
+
+  useEffect(() => {
+    if (startCPU == false || context.turn === 'P1' || context.finished == true) return
+
+    const updatedMatrix = getUpdatedMatrixCPU(context.matrix)
+    const stateGame = checkWin(updatedMatrix)
+    context.handleUpdateMatrix(stateGame.matrix)
+    if (stateGame.isWin == false) {
+      if (stateGame.isFull == true) {
+        context.handleFinish('tie')
+      }
+      context.handleEndTurn()
+      return
+    }
+    context.handleFinish(stateGame.winner)
+    if (stateGame.winner == 'P1') context.handleP1()
+    if (stateGame.winner == 'P2') context.handleP2()
+  }, [context.turn, context.time])
 
   return (
     <div className='w-full font-bold xl:flex xl:items-center xl:justify-center xl:gap-[3.75rem]'>
@@ -73,7 +95,7 @@ export default function Playboard() {
             >
               <button
                 className='relative z-30 flex h-full w-full items-center justify-center rounded-full'
-                onClick={() => handleClick(indexRow, indexCol, piece, context)}
+                onClick={() => handleClick(indexRow, indexCol, piece, context, startCPU)}
                 onMouseEnter={() => handleHover(indexCol)}
               >
                 {(context.matrix[indexRow][indexCol] == -2 ||

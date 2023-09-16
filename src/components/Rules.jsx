@@ -14,7 +14,7 @@ export default function Rules() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className='mx-auto w-[min(100%-40px,480px)] rounded-[40px] border-4 border-black bg-white shadow-[0_10px_0_0_#000]'
+        className='mx-auto w-[min(100%-2.5rem,30rem)] rounded-[2.5rem] border-4 border-black bg-white shadow-[0_10px_0_0_#000]'
       >
         <div className=' relative px-10 pb-14 pt-7'>
           <h1 className='mb-7 text-center text-6xl font-bold uppercase'>Rules</h1>
@@ -36,7 +36,7 @@ export default function Rules() {
             onClick={() => {
               setRules(!rules)
             }}
-            className='absolute bottom-[-40px] left-[calc(50%-35px)]'
+            className='absolute bottom-[-2.5rem] left-[calc(50%-2.1875rem)]'
             aria-label='Close rules'
           >
             <img src={closeIcon} alt='Close rules' className='h-16 w-16' />

@@ -19,13 +19,13 @@ function App() {
         <RulesContext.Provider value={{ rules, setRules }}>
           <div
             className={`min-h-screen font-[SpaceGrotesk] ${
-              startPlayer === true ? 'bg-custom-purple' : ''
+              startPlayer === true || startCPU === true ? 'bg-custom-purple' : ''
             }`}
           >
             <AnimatePresence mode='wait' initial={false}>
-              {!rules && !startPlayer && <StartMenu />}
+              {!rules && !startPlayer && !startCPU && <StartMenu />}
               {rules && <Rules />}
-              {startPlayer && <Board />}
+              {(startPlayer || startCPU) && <Board />}
             </AnimatePresence>
           </div>
         </RulesContext.Provider>

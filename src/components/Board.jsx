@@ -27,8 +27,8 @@ export default function Board() {
     dispatchBoardReducer(ACTIONS.changeTurn())
   }
 
-  const handlePlacePuck = (data) => {
-    dispatchBoardReducer(ACTIONS.placePuck(data))
+  const handleUpdateMatrix = (data) => {
+    dispatchBoardReducer(ACTIONS.updateMatrix(data))
   }
 
   const handleFinish = (data) => {
@@ -69,8 +69,8 @@ export default function Board() {
         handleRestart: () => handleRestart(),
         handlePause: () => handlePause(),
         handleChangeTurn: () => handleChangeTurn(),
-        handlePlacePuck: (matrix) => handlePlacePuck(matrix),
-        handleFinish: (matrix) => handleFinish(matrix),
+        handleUpdateMatrix: (matrix) => handleUpdateMatrix(matrix),
+        handleFinish: (winner) => handleFinish(winner),
         handleEndTurn: () => handleEndTurn(),
         handleCountDown: () => handleCountDown(),
         handleP1: () => handleP1(),
@@ -83,7 +83,7 @@ export default function Board() {
         animate={{ opacity: 1 }}
         className='relative flex min-h-screen flex-col justify-start'
       >
-        <div className='mx-auto  w-[min(100%-40px,632px)] pt-12 xl:w-[64.625rem]'>
+        <div className='mx-auto  w-[min(100%-2.5rem,39.5rem)] pt-12 xl:w-[64.625rem]'>
           <Navbar />
           <Scoreboard />
           <Playboard />

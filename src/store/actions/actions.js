@@ -17,17 +17,17 @@ export const changeTurn=()=>{
     };
 };
 
-export const placePuck = (data)=>{
+export const updateMatrix = (data)=>{
     return{
-        type: ACTION_TYPES.PLACE_PUCK,
-        matrix: data
+        type: ACTION_TYPES.UPDATE_MATRIX,
+        matrix: data,
     };
 };
 
 export const finish = (data)=>{
     return{
         type:ACTION_TYPES.FINISH,
-        matrix: data
+        winner:data,
     };
 };
 
