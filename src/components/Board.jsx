@@ -7,7 +7,7 @@ import Context from '../utils/context'
 import * as ACTIONS from '../store/actions/actions'
 import * as BoardReducer from '../store/reducers/boardReducer'
 import PauseMenu from './PauseMenu'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 
 export default function Board() {
   const [stateBoardReducer, dispatchBoardReducer] = useReducer(
@@ -79,11 +79,7 @@ export default function Board() {
         handleReplay: () => handleReplay(),
       }}
     >
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className='relative flex min-h-screen flex-col justify-start'
-      >
+      <div className='relative flex min-h-screen animate-spawn flex-col justify-start'>
         <div className='mx-auto  w-[min(100%-2.5rem,39.5rem)] pt-12 xl:w-[64.625rem]'>
           <Navbar />
           <Scoreboard />
@@ -91,7 +87,7 @@ export default function Board() {
         </div>
         <Counter />
         <AnimatePresence>{stateBoardReducer.pause && <PauseMenu />}</AnimatePresence>
-      </motion.div>
+      </div>
     </Context.Provider>
   )
 }
