@@ -62,18 +62,20 @@ export default function Playboard() {
 
     const updatedMatrix = getUpdatedMatrixCPU(context.matrix)
     const stateGame = checkWin(updatedMatrix)
-    context.handleUpdateMatrix(stateGame.matrix)
-    if (stateGame.isWin == false) {
-      if (stateGame.isFull == true) {
-        context.handleFinish('tie')
+    if (context.time == 14) {
+      context.handleUpdateMatrix(stateGame.matrix)
+      if (stateGame.isWin == false) {
+        if (stateGame.isFull == true) {
+          context.handleFinish('tie')
+          return
+        }
+        context.handleEndTurn()
         return
       }
-      context.handleEndTurn()
-      return
+      context.handleFinish(stateGame.winner)
+      if (stateGame.winner == 'P1') context.handleP1()
+      if (stateGame.winner == 'P2') context.handleP2()
     }
-    context.handleFinish(stateGame.winner)
-    if (stateGame.winner == 'P1') context.handleP1()
-    if (stateGame.winner == 'P2') context.handleP2()
   }, [context.turn, context.time])
 
   return (
