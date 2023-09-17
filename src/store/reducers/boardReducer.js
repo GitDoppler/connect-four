@@ -5,7 +5,6 @@ export const initialState={
     scoreP1: 0,
     scoreP2: 0,
     turn: 'P1',
-    turnEnd:false,
     finished: false,
     matrix: createMatrix(6,7),
     pause: false,
@@ -16,18 +15,7 @@ export const initialState={
 export const BoardReducer = (state=initialState,action)=>{
     switch(action.type){
         case ACTION_TYPES.RESTART:
-            return{
-                ...state,
-                scoreP1: 0,
-                scoreP2: 0,
-                turn: 'P1',
-                turnEnd:false,
-                finished: false,
-                matrix: createMatrix(6,7),
-                pause: false,
-                time:15,
-                winner: '',
-            };
+            return initialState;
         case ACTION_TYPES.PAUSE:
             return{
                 ...state,
@@ -49,12 +37,7 @@ export const BoardReducer = (state=initialState,action)=>{
                 ...state,
                 finished:true,
                 winner:action.winner,
-            };
-        case ACTION_TYPES.END_TURN:
-            return{
-                ...state,
-                turnEnd: !state.turnEnd,
-            };
+            };;
         case ACTION_TYPES.COUNT_DOWN:
             return{
                 ...state,
@@ -74,7 +57,6 @@ export const BoardReducer = (state=initialState,action)=>{
             return{
                 ...state,
                 turn: (state.turn === 'P1'?'P2':'P1'),
-                turnEnd:false,
                 finished: false,
                 matrix: createMatrix(6,7),
                 pause: false,

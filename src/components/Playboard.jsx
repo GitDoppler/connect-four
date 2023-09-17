@@ -48,7 +48,7 @@ export default function Playboard() {
           context.handleFinish('tie')
           return
         }
-        context.handleEndTurn()
+        context.handleChangeTurn()
         return
       }
       context.handleFinish(stateGame.winner)
