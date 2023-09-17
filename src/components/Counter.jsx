@@ -7,12 +7,6 @@ export default function Counter() {
   useEffect(() => {
     if (context.pause) return
 
-    if (context.turnEnd) {
-      context.handleChangeTurn()
-      context.handleEndTurn()
-      return
-    }
-
     const interval = setInterval(() => {
       if (context.time <= 1) {
         context.handleChangeTurn()
@@ -26,7 +20,7 @@ export default function Counter() {
     }
 
     return () => clearInterval(interval)
-  }, [context.time, context.turnEnd, context.pause, context.finished])
+  }, [context.time, context.pause, context.finished])
 
   function handleClick() {
     context.handleReplay()

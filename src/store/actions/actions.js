@@ -31,12 +31,6 @@ export const finish = (data)=>{
     };
 };
 
-export const endTurn=()=>{
-    return{
-        type:ACTION_TYPES.END_TURN,
-    };
-};
-
 export const countDown=()=>{
     return{
         type:ACTION_TYPES.COUNT_DOWN,

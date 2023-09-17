@@ -35,10 +35,6 @@ export default function Board() {
     dispatchBoardReducer(ACTIONS.finish(data))
   }
 
-  const handleEndTurn = () => {
-    dispatchBoardReducer(ACTIONS.endTurn())
-  }
-
   const handleCountDown = () => {
     dispatchBoardReducer(ACTIONS.countDown())
   }
@@ -61,7 +57,6 @@ export default function Board() {
         scoreP1: stateBoardReducer.scoreP1,
         scoreP2: stateBoardReducer.scoreP2,
         turn: stateBoardReducer.turn,
-        turnEnd: stateBoardReducer.turnEnd,
         finished: stateBoardReducer.finished,
         matrix: stateBoardReducer.matrix,
         pause: stateBoardReducer.pause,
@@ -72,7 +67,6 @@ export default function Board() {
         handleChangeTurn: () => handleChangeTurn(),
         handleUpdateMatrix: (matrix) => handleUpdateMatrix(matrix),
         handleFinish: (winner) => handleFinish(winner),
-        handleEndTurn: () => handleEndTurn(),
         handleCountDown: () => handleCountDown(),
         handleP1: () => handleP1(),
         handleP2: () => handleP2(),
