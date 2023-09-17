@@ -1,7 +1,5 @@
 import { useEffect, useContext } from 'react'
 import Context from '../utils/context'
-import turnRed from '../../src/assets/images/turn-background-red.svg'
-import turnYellow from '../../src/assets/images/turn-background-yellow.svg'
 
 export default function Counter() {
   const context = useContext(Context)
@@ -58,8 +56,8 @@ export default function Counter() {
             'relative z-40 mx-auto flex h-[9.375rem] max-w-[11.9375rem] flex-col items-center justify-center gap-1 rounded-2xl  bg-cover bg-no-repeat shadow-[0_10px_0_0_#000] ' +
             `${
               context.turn === 'P1'
-                ? 'bg-[url(../../src/assets/images/turn-background-red.svg)]'
-                : 'bg-[url(../../src/assets/images/turn-background-yellow.svg)]'
+                ? 'bg-[url(../../public/turn-background-red.svg)]'
+                : 'bg-[url(../../public/turn-background-yellow.svg)]'
             }`
           }
         >
