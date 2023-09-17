@@ -108,11 +108,7 @@ export default function Playboard() {
               >
                 {(context.matrix[indexRow][indexCol] == -2 ||
                   context.matrix[indexRow][indexCol] == 2) && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className='mt-1 flex h-[58.8%] w-[58.8%] items-center justify-center rounded-full bg-white'
-                  >
+                  <div className='mt-1 flex h-[58.8%] w-[58.8%] animate-spawn items-center justify-center rounded-full bg-white'>
                     <div
                       className={`h-[40%] w-[40%] rounded-full ${
                         context.matrix[indexRow][indexCol] > 0
@@ -120,16 +116,14 @@ export default function Playboard() {
                           : 'bg-custom-yellow'
                       }`}
                     ></div>
-                  </motion.div>
+                  </div>
                 )}
               </button>
 
               {context.matrix[indexRow][indexCol] != 0 ? (
-                <motion.img
-                  initial={{ top: '-120%' }}
-                  animate={{ top: '0px' }}
+                <img
                   src={context.matrix[indexRow][indexCol] > 0 ? RedPuck : YellowPuck}
-                  className={`absolute left-[calc(50%-calc((100%+0.5rem)/2))] z-10 aspect-square w-[calc(100%+0.5rem)] max-w-none md:left-[-0.25rem]`}
+                  className={`absolute left-[calc(50%-calc((100%+0.5rem)/2))] top-0 z-10 aspect-square w-[calc(100%+0.5rem)] max-w-none animate-fall md:left-[-0.25rem]`}
                 />
               ) : null}
             </div>

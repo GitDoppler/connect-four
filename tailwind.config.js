@@ -16,7 +16,21 @@ export default {
                 'container-button' :'clamp(20.94rem,calc(3.23rem + 75.57vw), 39.50rem)',
                 'container-gap' : 'clamp(0.81rem,calc(0.16rem + 2.80vw), 1.50rem)',
                 'scoreboard' : 'clamp(8.88rem,calc(1.12rem + 33.08vw), 17.00rem)' 
-            }
+            },
+            keyframes: {
+                spawn: {
+                  '0%': { opacity: '0' },
+                  '100%': { opacity: '1' },
+                },
+                fall:{
+                    '0%':{top:'-120%'},
+                    '100%':{top:'0px'},
+                },
+            },
+            animation: {
+                spawn: 'spawn 0.2s linear 1',
+                fall: 'fall 0.2s linear 1',
+            },
         },
     },
     plugins: [],
