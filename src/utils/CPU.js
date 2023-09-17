@@ -190,9 +190,7 @@ function getBestMove(board) {
 
 export function getUpdatedMatrixCPU(board){
     const updatedMatrix = board.map((row) => [...row]);
-    console.log(updatedMatrix)
     const bestMove = getBestMove(board);
-    console.log(bestMove)
     updatedMatrix[bestMove.row][bestMove.col] = -1;
     return updatedMatrix;
 }
