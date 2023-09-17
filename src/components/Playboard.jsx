@@ -11,6 +11,7 @@ import { motion } from 'framer-motion'
 import { getUpdatedMatrix, checkWin } from '../utils/matrix'
 import { getUpdatedMatrixCPU } from '../utils/CPU'
 import ScoreboardPlayer from './ScoreboardPlayer'
+import ScoreboardCPU from './ScoreboardCPU'
 import Context from '../utils/context'
 import { StartCPUContext } from '../App'
 
@@ -43,10 +44,14 @@ export default function Playboard() {
       const stateGame = checkWin(updatedMatrix)
       context.handleUpdateMatrix(stateGame.matrix)
       if (stateGame.isWin == false) {
+        if (stateGame.isFull == true) {
+          context.handleFinish('tie')
+          return
+        }
         context.handleEndTurn()
         return
       }
-      context.handleFinish()
+      context.handleFinish(stateGame.winner)
       if (stateGame.winner == 'P1') context.handleP1()
       if (stateGame.winner == 'P2') context.handleP2()
     }
@@ -61,6 +66,7 @@ export default function Playboard() {
     if (stateGame.isWin == false) {
       if (stateGame.isFull == true) {
         context.handleFinish('tie')
+        return
       }
       context.handleEndTurn()
       return
@@ -149,7 +155,8 @@ export default function Playboard() {
         ></img>
       </div>
 
-      <ScoreboardPlayer score={context.scoreP2} player={'P2'} desktop={true} />
+      {!startCPU && <ScoreboardPlayer score={context.scoreP2} player={'P2'} desktop={true} />}
+      {startCPU && <ScoreboardCPU score={context.scoreP2} desktop={true} />}
     </div>
   )
 }

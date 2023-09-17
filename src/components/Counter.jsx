@@ -46,6 +46,8 @@ export default function Counter() {
     return 'No winner'
   }
 
+  console.log(context.winner)
+
   return (
     <div
       className={`mb-auto mt-5 flex-grow rounded-t-[3.75rem] ${handleChange()} pb-5 transition-[background]`}

@@ -10,7 +10,7 @@ export const initialState={
     matrix: createMatrix(6,7),
     pause: false,
     time:15,
-    winner:null,
+    winner:'',
 };
 
 export const BoardReducer = (state=initialState,action)=>{
@@ -26,7 +26,7 @@ export const BoardReducer = (state=initialState,action)=>{
                 matrix: createMatrix(6,7),
                 pause: false,
                 time:15,
-                winner: null,
+                winner: '',
             };
         case ACTION_TYPES.PAUSE:
             return{
@@ -73,7 +73,7 @@ export const BoardReducer = (state=initialState,action)=>{
         case ACTION_TYPES.REPLAY:
             return{
                 ...state,
-                turn: (initialState === 'P1'?'P2':'P1'),
+                turn: (state.turn === 'P1'?'P2':'P1'),
                 turnEnd:false,
                 finished: false,
                 matrix: createMatrix(6,7),

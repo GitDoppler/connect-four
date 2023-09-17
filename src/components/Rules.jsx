@@ -30,7 +30,7 @@ export default function Rules() {
               Players must alternate turns, and only one disc can be dropped in each turn.{' '}
             </li>
             <li className='pl-2'>The game ends when there is a 4-in-a-row or a stalemate.</li>
-            <li className='pl-2'>The starter of the previous game goes second on the next game.</li>
+            <li className='pl-2'>The winner of the previous game goes second on the next game.</li>
           </ol>
           <button
             onClick={() => {

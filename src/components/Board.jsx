@@ -66,6 +66,7 @@ export default function Board() {
         matrix: stateBoardReducer.matrix,
         pause: stateBoardReducer.pause,
         time: stateBoardReducer.time,
+        winner: stateBoardReducer.winner,
         handleRestart: () => handleRestart(),
         handlePause: () => handlePause(),
         handleChangeTurn: () => handleChangeTurn(),
