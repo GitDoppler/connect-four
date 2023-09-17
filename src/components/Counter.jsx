@@ -1,5 +1,7 @@
 import { useEffect, useContext } from 'react'
 import Context from '../utils/context'
+import turnRed from '../../src/assets/images/turn-background-red.svg'
+import turnYellow from '../../src/assets/images/turn-background-yellow.svg'
 
 export default function Counter() {
   const context = useContext(Context)
@@ -45,8 +47,6 @@ export default function Counter() {
     if (winner === 'P2') return 'Player 2'
     return 'No winner'
   }
-
-  console.log(context.winner)
 
   return (
     <div
