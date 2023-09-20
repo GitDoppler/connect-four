@@ -1,7 +1,10 @@
+import React from 'react'
 import Player1 from '../assets/images/player-one.svg'
 import Player2 from '../assets/images/player-two.svg'
 
-export default function ScoreboardPlayer({ score, player, desktop }) {
+function ScoreboardPlayer({ score, player, desktop }) {
+  console.log('Rerender Scoreboard')
+
   return (
     <>
       {desktop === false ? (
@@ -38,3 +41,5 @@ export default function ScoreboardPlayer({ score, player, desktop }) {
     </>
   )
 }
+
+export default React.memo(ScoreboardPlayer)

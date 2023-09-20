@@ -1,10 +1,11 @@
 import { useContext } from 'react'
-import Context from '../utils/context'
 import { StartPlayerContext, StartCPUContext } from '../App'
 import { motion } from 'framer-motion'
+import { useStore } from './Board'
 
 export default function PauseMenu() {
-  const context = useContext(Context)
+  const handlePause = useStore((state) => state.togglePause)
+  const handleRestart = useStore((state) => state.restart)
   const { startPlayer, setStartPlayer } = useContext(StartPlayerContext)
   const { startCPU, setStartCPU } = useContext(StartCPUContext)
 
@@ -21,20 +22,20 @@ export default function PauseMenu() {
           <div className='flex w-full flex-col justify-between gap-7'>
             <button
               className='flex h-[4.5rem] w-full items-center justify-center rounded-2xl border-4 border-black bg-white text-2xl font-bold uppercase shadow-[0_10px_0_0_#000]'
-              onClick={() => context.handlePause()}
+              onClick={() => handlePause()}
             >
               Continue game
             </button>
             <button
               className='flex h-[4.5rem] w-full items-center justify-center rounded-2xl border-4 border-black bg-white text-2xl font-bold uppercase shadow-[0_10px_0_0_#000]'
-              onClick={() => context.handleRestart()}
+              onClick={() => handleRestart()}
             >
               Restart
             </button>
             <button
               className='flex h-[4.5rem] w-full items-center justify-center rounded-2xl border-4 border-black bg-custom-pink text-2xl font-bold uppercase text-white shadow-[0_10px_0_0_#000]'
               onClick={() => {
-                context.handleFinish()
+                handleRestart()
                 if (startPlayer === true) {
                   setStartPlayer(false)
                 }

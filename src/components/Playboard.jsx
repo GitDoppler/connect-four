@@ -7,19 +7,27 @@ import YellowPuck from '../assets/images/counter-yellow-large.svg'
 import MarkerRed from '../assets/images/marker-red.svg'
 import MarkerYellow from '../assets/images/marker-yellow.svg'
 import { useState, useContext, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import { getUpdatedMatrix, checkWin } from '../utils/matrix'
 import { getUpdatedMatrixCPU } from '../utils/CPU'
 import ScoreboardPlayer from './ScoreboardPlayer'
 import ScoreboardCPU from './ScoreboardCPU'
-import Context from '../utils/context'
 import { StartCPUContext } from '../App'
+import { useStore } from './Board'
 
 export default function Playboard() {
-  const context = useContext(Context)
+  const turn = useStore((state) => state.turn)
+  const matrix = useStore((state) => state.matrix)
+  const finished = useStore((state) => state.finished)
+  const time = useStore((state) => state.time)
+  const scoreP1 = useStore((state) => state.scoreP1)
+  const scoreP2 = useStore((state) => state.scoreP2)
+  const handleUpdateMatrix = useStore((state) => state.updateMatrix)
+  const handleFinish = useStore((state) => state.finish)
+  const handleChangeTurn = useStore((state) => state.changeTurn)
+
   const { startCPU, setStartCPU } = useContext(StartCPUContext)
   const [pings, setPings] = useState(createArray(7))
-  const piece = context.turn === 'P1' ? 1 : -1
+  const piece = turn === 'P1' ? 1 : -1
 
   function createArray(size) {
     const array = new Array(size).fill(0)
@@ -37,50 +45,57 @@ export default function Playboard() {
     setPings(nextPings)
   }
 
-  function handleClick(indexRow, indexCol, piece, context, startCPU) {
-    if (startCPU === true && context.turn === 'P2') return null
-    const updatedMatrix = getUpdatedMatrix(indexRow, indexCol, piece, context.matrix)
-    if (!context.finished && updatedMatrix) {
+  function handleClick(
+    indexRow,
+    indexCol,
+    piece,
+    startCPU,
+    turn,
+    finished,
+    matrix,
+    handleUpdateMatrix,
+    handleFinish,
+    handleChangeTurn
+  ) {
+    if (startCPU === true && turn === 'P2') return null
+    const updatedMatrix = getUpdatedMatrix(indexRow, indexCol, piece, matrix)
+    if (!finished && updatedMatrix) {
       const stateGame = checkWin(updatedMatrix)
-      context.handleUpdateMatrix(stateGame.matrix)
+      handleUpdateMatrix(stateGame.matrix)
       if (stateGame.isWin == false) {
         if (stateGame.isFull == true) {
-          context.handleFinish('tie')
+          handleFinish('tie')
           return
         }
-        context.handleChangeTurn()
+        handleChangeTurn()
         return
       }
-      context.handleFinish(stateGame.winner)
-      if (stateGame.winner == 'P1') context.handleP1()
-      if (stateGame.winner == 'P2') context.handleP2()
+      handleFinish(stateGame.winner)
     }
   }
 
   useEffect(() => {
-    if (startCPU == false || context.turn === 'P1' || context.finished == true) return
+    if (startCPU == false || turn === 'P1' || finished == true) return
 
-    const updatedMatrix = getUpdatedMatrixCPU(context.matrix)
+    const updatedMatrix = getUpdatedMatrixCPU(matrix)
     const stateGame = checkWin(updatedMatrix)
-    if (context.time == 14) {
-      context.handleUpdateMatrix(stateGame.matrix)
+    if (time == 13) {
+      handleUpdateMatrix(stateGame.matrix)
       if (stateGame.isWin == false) {
         if (stateGame.isFull == true) {
-          context.handleFinish('tie')
+          handleFinish('tie')
           return
         }
-        context.handleEndTurn()
+        handleChangeTurn()
         return
       }
-      context.handleFinish(stateGame.winner)
-      if (stateGame.winner == 'P1') context.handleP1()
-      if (stateGame.winner == 'P2') context.handleP2()
+      handleFinish(stateGame.winner)
     }
-  }, [context.turn, context.time])
+  }, [turn, time])
 
   return (
     <div className='w-full font-bold xl:flex xl:items-center xl:justify-center xl:gap-[3.75rem]'>
-      <ScoreboardPlayer score={context.scoreP1} player={'P1'} desktop={true} />
+      <ScoreboardPlayer score={scoreP1} player={'P1'} desktop={true} />
 
       <div className=' relative mx-auto mt-16 flex aspect-[1.25219/1] w-full flex-wrap items-center justify-center gap-[3.797%] md:mt-20 md:gap-[1.5rem] xl:w-[39.5rem]'>
         <div className='absolute top-[-3.75rem] z-50 hidden w-full justify-center gap-[3.797%] md:gap-[1.5rem] lg:flex '>
@@ -91,11 +106,11 @@ export default function Playboard() {
               }`}
               key={indexPing}
             >
-              <img src={context.turn === 'P1' ? MarkerRed : MarkerYellow} />
+              <img src={turn === 'P1' ? MarkerRed : MarkerYellow} />
             </div>
           ))}
         </div>
-        {context.matrix.map((row, indexRow) =>
+        {matrix.map((row, indexRow) =>
           row.map((e, indexCol) => (
             <div
               className='relative aspect-square w-[10.1492%] md:w-[4rem]'
@@ -103,26 +118,36 @@ export default function Playboard() {
             >
               <button
                 className='relative z-30 flex h-full w-full items-center justify-center rounded-full'
-                onClick={() => handleClick(indexRow, indexCol, piece, context, startCPU)}
+                onClick={() =>
+                  handleClick(
+                    indexRow,
+                    indexCol,
+                    piece,
+                    startCPU,
+                    turn,
+                    finished,
+                    matrix,
+                    handleUpdateMatrix,
+                    handleFinish,
+                    handleChangeTurn
+                  )
+                }
                 onMouseEnter={() => handleHover(indexCol)}
               >
-                {(context.matrix[indexRow][indexCol] == -2 ||
-                  context.matrix[indexRow][indexCol] == 2) && (
+                {(matrix[indexRow][indexCol] == -2 || matrix[indexRow][indexCol] == 2) && (
                   <div className='mt-1 flex h-[58.8%] w-[58.8%] animate-spawn items-center justify-center rounded-full bg-white'>
                     <div
                       className={`h-[40%] w-[40%] rounded-full ${
-                        context.matrix[indexRow][indexCol] > 0
-                          ? 'bg-custom-pink'
-                          : 'bg-custom-yellow'
+                        matrix[indexRow][indexCol] > 0 ? 'bg-custom-pink' : 'bg-custom-yellow'
                       }`}
                     ></div>
                   </div>
                 )}
               </button>
 
-              {context.matrix[indexRow][indexCol] != 0 ? (
+              {matrix[indexRow][indexCol] != 0 ? (
                 <img
-                  src={context.matrix[indexRow][indexCol] > 0 ? RedPuck : YellowPuck}
+                  src={matrix[indexRow][indexCol] > 0 ? RedPuck : YellowPuck}
                   className={`absolute left-[calc(50%-calc((100%+0.5rem)/2))] top-0 z-10 aspect-square w-[calc(100%+0.5rem)] max-w-none animate-fall md:left-[-0.25rem]`}
                 />
               ) : null}
@@ -151,8 +176,8 @@ export default function Playboard() {
         ></img>
       </div>
 
-      {!startCPU && <ScoreboardPlayer score={context.scoreP2} player={'P2'} desktop={true} />}
-      {startCPU && <ScoreboardCPU score={context.scoreP2} desktop={true} />}
+      {!startCPU && <ScoreboardPlayer score={scoreP2} player={'P2'} desktop={true} />}
+      {startCPU && <ScoreboardCPU score={scoreP2} desktop={true} />}
     </div>
   )
 }
