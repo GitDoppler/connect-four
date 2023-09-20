@@ -37,21 +37,13 @@ export const BoardReducer = (state=initialState,action)=>{
                 ...state,
                 finished:true,
                 winner:action.winner,
-            };;
+                scoreP1:(action.winner!='tie' && action.winner==='P1'?state.scoreP1 + 1:state.scoreP1),
+                scoreP2:(action.winner!='tie' && action.winner==='P2'?state.scoreP2 + 1:state.scoreP2),
+            };
         case ACTION_TYPES.COUNT_DOWN:
             return{
                 ...state,
                 time: state.time - 1,
-            };
-        case ACTION_TYPES.P1:
-            return{
-                ...state,
-                scoreP1: state.scoreP1 + 2,
-            };
-        case ACTION_TYPES.P2:
-            return{
-                ...state,
-                scoreP2: state.scoreP2 + 2,
             };
         case ACTION_TYPES.REPLAY:
             return{
