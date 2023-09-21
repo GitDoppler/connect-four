@@ -7,6 +7,23 @@ import PauseMenu from './PauseMenu'
 import { AnimatePresence } from 'framer-motion'
 import { create } from 'zustand'
 import { createMatrix } from '../utils/matrix'
+import { useState, useEffect } from 'react'
+
+const useMediaQuery = (query) => {
+  const [matches, setMatches] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia(query)
+    if (media.matches !== matches) {
+      setMatches(media.matches)
+    }
+    const listener = () => setMatches(media.matches)
+    window.addEventListener('resize', listener)
+    return () => window.removeEventListener('resize', listener)
+  }, [matches, query])
+
+  return matches
+}
 
 export const useStore = create((set) => ({
   scoreP1: 0,
@@ -62,12 +79,13 @@ export const useStore = create((set) => ({
 
 export default function Board() {
   const pause = useStore((state) => state.pause)
+  const desktop = useMediaQuery('(min-width:1280px)')
 
   return (
     <div className='relative flex min-h-screen animate-spawn flex-col justify-start'>
       <div className='mx-auto  w-[min(100%-2.5rem,39.5rem)] pt-12 xl:w-[64.625rem]'>
         <Navbar />
-        <Scoreboard />
+        {!desktop && <Scoreboard />}
         <Playboard />
       </div>
       <Counter />
