@@ -1,8 +1,0 @@
-export const RESTART="RESTART"
-export const PAUSE="PAUSE"
-export const CHANGE_TURN="CHANGE_TURN"
-export const COUNT_DOWN="COUNT_DOWN"
-export const UPDATE_MATRIX="UPDATE_MATRIX"
-export const DECREMENT="DECREMENT"
-export const FINISH = "FINISH"
-export const REPLAY="REPLAY"

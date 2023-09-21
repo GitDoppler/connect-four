@@ -6,8 +6,8 @@ export default function ScoreboardPlayer({ score, desktop }) {
       {desktop === false ? (
         <div className='relative w-[42.388%] rounded-2xl border-4 border-black bg-white shadow-[0_10px_0_0_#000]'>
           <div
-            className={`flex flex-col items-center justify-center px-8 py-2 uppercase 
-               md:flex-row-reverse md:gap-5 md:py-4`}
+            className='flex flex-col items-center justify-center px-8 py-2 uppercase 
+               md:flex-row-reverse md:gap-5 md:py-4'
           >
             <div className='md:text-xl'>CPU</div>
             <div className='text-3xl md:text-6xl'>{score}</div>
@@ -15,8 +15,8 @@ export default function ScoreboardPlayer({ score, desktop }) {
           <img
             src={PlayerCPU}
             alt='CPU'
-            className={`absolute right-[-1.6875rem]
-             top-[15%] h-[3.6875rem] w-[3.375rem]`}
+            className='absolute right-[-1.6875rem]
+             top-[15%] h-[3.6875rem] w-[3.375rem]'
           />
         </div>
       ) : (

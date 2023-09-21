@@ -14,6 +14,7 @@ import { useStore } from './Board'
 
 export default function InternalBoard() {
   const turn = useStore((state) => state.turn)
+  const time = useStore((state) => state.time)
   const matrix = useStore((state) => state.matrix)
   const finished = useStore((state) => state.finished)
   const handleUpdateMatrix = useStore((state) => state.updateMatrix)
@@ -138,7 +139,7 @@ export default function InternalBoard() {
             {matrix[indexRow][indexCol] != 0 ? (
               <img
                 src={matrix[indexRow][indexCol] > 0 ? RedPuck : YellowPuck}
-                className={`absolute left-[calc(50%-calc((100%+0.5rem)/2))] top-0 z-10 aspect-square w-[calc(100%+0.5rem)] max-w-none animate-fall md:left-[-0.25rem]`}
+                className='absolute left-[calc(50%-calc((100%+0.5rem)/2))] top-0 z-10 aspect-square w-[calc(100%+0.5rem)] max-w-none animate-fall md:left-[-0.25rem]'
               />
             ) : null}
           </div>

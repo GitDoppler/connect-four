@@ -23,8 +23,8 @@ export default {
                   '100%': { opacity: '1' },
                 },
                 fall:{
-                    '0%':{top:'-120%'},
-                    '100%':{top:'0px'},
+                    '0%':{transform:'translateY(-120%)'},
+                    '100%':{transform:'translateY(0px)'},
                 },
             },
             animation: {
