@@ -28,10 +28,10 @@ Users should be able to:
 
 ### Screenshot
 
-![](./public/image-1.png)
-![](./public/image-2.png)
-![](./public/image-3.png)
-![](./public/image-4.png)
+![](./README-images/image-1.png)
+![](./README-images/image-2.png)
+![](./README-images/image-3.png)
+![](./README-images/image-4.png)
 
 ### Links
 
